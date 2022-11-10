@@ -1,0 +1,42 @@
+parameters:
+  - name: 'cicd'
+    type: object
+    displayName: 'Enable cicd'
+    default:
+      enable: true
+
+stages:
+  - stage: CI
+    displayName: 'STAGE: CI'
+    ${{ if eq(parameters.cicd.enable , true)  }}:
+      condition: |
+        or
+          (
+            and
+              (
+                in(variables['Build.Reason'],'Manual','IndividualCI') , 
+                in(variables['Build.SourceBranch'],'refs/heads/main','refs/heads/master')
+              ), 
+            and
+              (
+                in(variables['Build.Reason'],'Manual') ,
+                startsWith(variables['Build.SourceBranch'],'refs/heads/hotfix/')
+              )
+          )
+    ${{ else }}:
+      condition: always()
+    jobs:
+    - job: JOBCI
+      displayName: 'JOB: CI'
+      continueOnError: false
+      pool:
+        vmImage: 'ubuntu-20.04'
+      timeoutInMinutes: 30
+      workspace:
+        clean: all
+      steps:
+      
+        #######################
+        # git clone source code
+        #######################
+      - template: test.yml
