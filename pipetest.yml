@@ -35,8 +35,4 @@ stages:
       workspace:
         clean: all
       steps:
-      
-        #######################
-        # git clone source code
-        #######################
       - template: test.yml

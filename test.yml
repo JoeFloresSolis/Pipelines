@@ -5,39 +5,19 @@ parameters:
   type: string
 
   default: '-'
-
-
-
 steps:
-
 - script: |
 
-    # get repositoryname
-
     set -e
-
-
-
     echo
-
     echo $(Build.BuildId)
-
     echo $(Build.BuildNumber)
-
-   
-
     repository=$(Build.Repository.Name)
-
     repository_name=$(echo ${repository} | cut -d'/' -f 2)
-
     export repository_name="${repository_name}"
-
     echo "repository_name $repository_name"
-
     echo "##vso[task.setvariable variable=repository_name;isOutput=true]$repository_name"
-
-
-
+    
+    ls -l
   name: init
-
   displayName: Init configuration
