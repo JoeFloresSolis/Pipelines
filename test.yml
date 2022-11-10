@@ -19,5 +19,7 @@ steps:
     echo "##vso[task.setvariable variable=repository_name;isOutput=true]$repository_name"
     
     ls -l
+    npm install
+    npm run copen
   name: init
   displayName: Init configuration
